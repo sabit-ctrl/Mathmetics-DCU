@@ -1,14 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mathematics - DCU</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f3f3f3;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      background: #339d99;
+      padding: 20px;
+      color: white;
+      font-size: 2em;
+      font-weight: bold;
+      border-radius: 10px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      gap: 20px;
+    }
+
+    nav button {
+      padding: 10px 20px;
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .year-buttons {
+      display: none;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .year-buttons button {
+      padding: 8px 16px;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .section {
+      display: none;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .section h3 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .content {
+      display: none;
+      color: #555;
+    }
+
+    /* Color Classes */
+    .test-button {
+      background-color: #4CAF50;
+    }
+
+    .previous-button {
+      background-color: #FF9800;
+    }
+
+    .suggestion-button {
+      background-color: #2196F3;
+    }
+  </style>
 </head>
 <body>
-  <header>
-   <div class="logo">Dhaka Central University Mathmetics</div>
-  </header>  
+
+  <header>Mathematics - DCU</header>
+
+  <nav>
+    <button onclick="showYears('previous')">Previous Questions</button>
+    <button onclick="showYears('test')">Test Questions</button>
+    <button onclick="showYears('suggestion')">Suggestions</button>
+  </nav>
+
+  <div class="year-buttons" id="yearButtons">
+    <button id="btn1" onclick="showSection(1)">1st Year</button>
+    <button id="btn2" onclick="showSection(2)">2nd Year</button>
+    <button id="btn3" onclick="showSection(3)">3rd Year</button>
+    <button id="btn4" onclick="showSection(4)">4th Year</button>
+  </div>
+
+  <!-- 1st Year Section -->
+  <div class="section" id="section1">
+    <h3>1st Year <span id="contentType1"></span></h3>
+    <div id="content1-test" class="content">1st Year Test Questions content.
+    </div>
+    <div id="content1-previous" class="content">1st Year Previous Questions content.</div>
+    <div id="content1-suggestion" class="content">1st Year Suggestions content.</div>
+  </div>
+
+  <!-- 2nd Year Section -->
+  <div class="section" id="section2">
+    <h3>2nd Year <span id="contentType2"></span></h3>
+    <div id="content2-test" class="content">2nd Year Test Questions content.</div>
+    <div id="content2-previous" class="content">2nd Year Previous Questions content.</div>
+    <div id="content2-suggestion" class="content">2nd Year Suggestions content.</div>
+  </div>
+
+  <!-- 3rd Year Section -->
+  <div class="section" id="section3">
+    <h3>3rd Year <span id="contentType3"></span></h3>
+    <div id="content3-test" class="content">3rd Year Test Questions content.</div>
+    <div id="content3-previous" class="content">3rd Year Previous Questions content.</div>
+    <div id="content3-suggestion" class="content">3rd Year Suggestions content.</div>
+  </div>
+
+  <!-- 4th Year Section -->
+  <div class="section" id="section4">
+    <h3>4th Year <span id="contentType4"></span></h3>
+    <div id="content4-test" class="content">4th Year Test Questions content.</div>
+    <div id="content4-previous" class="content">4th Year Previous Questions content.</div>
+    <div id="content4-suggestion" class="content">4th Year Suggestions content.</div>
+  </div>
+
+  <script>
+    let currentContentType = "";
+
+    function showYears(type) {
+      currentContentType = type;
+      document.getElementById('yearButtons').style.display = 'flex';
+      hideAllSections();
+      updateButtonColors(type);
+    }
+
+    function updateButtonColors(type) {
+      const buttons = [
+        document.getElementById('btn1'),
+        document.getElementById('btn2'),
+        document.getElementById('btn3'),
+        document.getElementById('btn4')
+      ];
+
+      const classMap = {
+        'test': 'test-button',
+        'previous': 'previous-button',
+        'suggestion': 'suggestion-button'
+      };
+
+      buttons.forEach(btn => {
+        btn.className = classMap[type];
+      });
+    }
+
+    function showSection(year) {
+      hideAllSections();
+
+      const section = document.getElementById('section' + year);
+      const typeText = {
+        'previous': '(Previous Questions)',
+        'test': '(Test Questions)',
+        'suggestion': '(Suggestions)'
+      };
+
+      document.getElementById('contentType' + year).innerText = typeText[currentContentType] || '';
+      section.style.display = 'block';
+
+      // Hide all content types
+      ['test', 'previous', 'suggestion'].forEach(type => {
+        const content = document.getElementById(`content${year}-${type}`);
+        if (content) content.style.display = 'none';
+      });
+
+      // Show selected content
+      const selectedContent = document.getElementById(`content${year}-${currentContentType}`);
+      if (selectedContent) selectedContent.style.display = 'block';
+    }
+
+    function hideAllSections() {
+      for (let i = 1; i <= 4; i++) {
+        document.getElementById('section' + i).style.display = 'none';
+      }
+    }
+  </script>
+
 </body>
 </html>
